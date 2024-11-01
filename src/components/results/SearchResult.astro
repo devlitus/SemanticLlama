@@ -1,0 +1,65 @@
+---
+interface Props {
+  filename: string;
+  filePath: string;
+  text: string;
+  similarity: number;
+}
+
+const { filename, filePath, text, similarity } = Astro.props;
+const similarityPercentage = (similarity * 100).toFixed(2);
+---
+
+<div class="bg-white border rounded-lg shadow-sm">
+  <div class="p-4 border-b bg-gray-50">
+    <h2 class="text-xl font-semibold text-gray-800">Mejor coincidencia</h2>
+    <p class="text-sm text-gray-600 mt-1">
+      Archivo: {filename}
+      <a
+        href={`/${filePath}`}
+        target="_blank"
+        class="ml-2 text-blue-500 hover:underline inline-flex items-center"
+      >
+        Ver documento completo
+        <svg
+          class="w-4 h-4 ml-1"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+          ></path>
+        </svg>
+      </a>
+    </p>
+  </div>
+
+  <div class="p-4">
+    <div class="mb-4">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-sm font-medium text-gray-700">Relevancia</span>
+        <span class="text-sm font-semibold text-blue-600"
+          >{similarityPercentage}%</span
+        >
+      </div>
+      <div class="w-full bg-gray-200 rounded-full h-2">
+        <div
+          class="bg-blue-600 h-2 rounded-full"
+          style={`width: ${similarityPercentage}%`}
+        >
+        </div>
+      </div>
+    </div>
+
+    <div class="bg-gray-50 rounded-lg p-4">
+      <p class="text-sm font-medium text-gray-700 mb-2">
+        Fragmento encontrado:
+      </p>
+      <p class="text-gray-800">{text}</p>
+    </div>
+  </div>
+</div>

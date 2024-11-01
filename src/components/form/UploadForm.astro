@@ -1,0 +1,230 @@
+---
+
+---
+
+<div class="mb-8 p-4 border rounded">
+  <h2 class="text-xl font-semibold mb-4 text-white">Cargar Documento</h2>
+  <form id="uploadForm" class="space-y-4">
+    <div>
+      <input
+        type="file"
+        name="file"
+        accept=".txt,.pdf"
+        class="block w-full text-sm text-gray-500
+          file:mr-4 file:py-2 file:px-4
+          file:rounded file:border-0
+          file:text-sm file:font-semibold
+          file:bg-blue-50 file:text-blue-700
+          hover:file:bg-blue-100"
+      />
+      <p class="mt-2 text-xs text-gray-500">
+        Formatos aceptados: PDF, TXT (máx. 30MB)
+      </p>
+    </div>
+    <div class="flex items-center gap-4">
+      <button
+        type="submit"
+        class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+      >
+        Cargar Archivo
+      </button>
+      <div id="uploadProgress" class="hidden flex-1">
+        <div class="w-full bg-gray-200 rounded-full h-2.5">
+          <div
+            id="progressBar"
+            class="bg-blue-600 h-2.5 rounded-full"
+            style="width: 0%"
+          >
+          </div>
+        </div>
+        <p id="progressText" class="text-xs text-gray-500 mt-1"></p>
+      </div>
+    </div>
+  </form>
+  <div id="uploadMessage" class="mt-4 hidden"></div>
+  <div id="fileList" class="mt-4">
+    <h3 class="text-sm font-semibold text-gray-700 mb-2">
+      Archivos procesados:
+    </h3>
+    <ul class="text-sm text-gray-600 space-y-1"></ul>
+  </div>
+</div>
+
+<script>
+  import { extractTextFromPDF } from "../../lib/pdf";
+
+  const uploadForm = document.getElementById("uploadForm") as HTMLFormElement;
+  const uploadMessage = document.getElementById("uploadMessage");
+  const fileList = document.getElementById("fileList")?.querySelector("ul");
+  const fileInput = uploadForm?.querySelector(
+    'input[type="file"]'
+  ) as HTMLInputElement;
+  const uploadProgress = document.getElementById("uploadProgress");
+  const progressBar = document.getElementById("progressBar");
+  const progressText = document.getElementById("progressText");
+
+  const MAX_FILE_SIZE = 30 * 1024 * 1024;
+
+  fileInput?.addEventListener("change", async () => {
+    const file = fileInput.files?.[0];
+    if (!file) return;
+
+    if (file.size > MAX_FILE_SIZE) {
+      showUploadMessage(
+        "El archivo es demasiado grande. El tamaño máximo permitido es 10MB.",
+        "error"
+      );
+      fileInput.value = "";
+      return;
+    }
+
+    // Mostrar información preliminar del archivo
+    if (file.type === "application/pdf") {
+      showUploadMessage("Analizando PDF...", "info");
+      try {
+        await extractTextFromPDF(file); // Verificar que podemos extraer el texto
+        showUploadMessage("PDF válido, listo para procesar", "success");
+      } catch (error) {
+        showUploadMessage(
+          "El PDF no se puede procesar. Asegúrate de que no está protegido y contiene texto.",
+          "error"
+        );
+        fileInput.value = "";
+      }
+    }
+  });
+
+  uploadForm?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const file = fileInput.files?.[0];
+
+    if (!file) {
+      showUploadMessage("Por favor, selecciona un archivo", "error");
+      return;
+    }
+
+    try {
+      showUploadMessage("Preparando archivo para procesamiento...", "info");
+      uploadProgress?.classList.remove("hidden");
+      uploadProgress?.classList.add("flex");
+
+      // Procesar el archivo según su tipo
+      let content: string;
+      if (file.type === "application/pdf") {
+        updateProgress(10, "Extrayendo texto del PDF...");
+        content = await extractTextFromPDF(file);
+        updateProgress(30, "Texto extraído, preparando para embeddings...");
+      } else {
+        updateProgress(10, "Leyendo archivo de texto...");
+        content = await file.text();
+        updateProgress(30, "Texto leído, preparando para embeddings...");
+      }
+
+      // Crear FormData con el contenido procesado
+      const formData = new FormData();
+      formData.append(
+        "file",
+        new Blob([content], { type: "text/plain" }),
+        file.name
+      );
+
+      updateProgress(50, "Generando embeddings...");
+
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Error al procesar el archivo");
+      }
+
+      updateProgress(90, "Finalizando procesamiento...");
+
+      const data = await response.json();
+      updateProgress(100, "¡Procesamiento completado!");
+
+      setTimeout(() => {
+        uploadProgress?.classList.add("hidden");
+        uploadProgress?.classList.remove("flex");
+        showUploadMessage(
+          `Archivo "${data.document.filename}" procesado exitosamente`,
+          "success"
+        );
+      }, 1000);
+
+      uploadForm.reset();
+      await loadProcessedFiles();
+    } catch (error) {
+      uploadProgress?.classList.add("hidden");
+      uploadProgress?.classList.remove("flex");
+
+      const errorMessage =
+        error instanceof Error
+          ? error.message.includes("503")
+            ? "El servidor está ocupado. Por favor, espera unos momentos y vuelve a intentarlo."
+            : error.message
+          : "Error al procesar el archivo";
+
+      showUploadMessage(errorMessage, "error");
+    }
+  });
+
+  function updateProgress(percent: number, message: string) {
+    if (progressBar && progressText) {
+      progressBar.style.width = `${percent}%`;
+      progressText.textContent = message;
+    }
+  }
+
+  function showUploadMessage(
+    message: string,
+    type: "success" | "error" | "info" = "info"
+  ) {
+    if (!uploadMessage) return;
+
+    const colors = {
+      success: "text-green-500 bg-green-50",
+      error: "text-red-500 bg-red-50",
+      info: "text-blue-500 bg-blue-50",
+    };
+
+    uploadMessage.innerHTML = message;
+    uploadMessage.className = `mt-4 p-3 rounded ${colors[type]}`;
+    uploadMessage.classList.remove("hidden");
+
+    if (type === "success") {
+      setTimeout(() => {
+        uploadMessage.classList.add("hidden");
+      }, 5000);
+    }
+  }
+
+  async function loadProcessedFiles() {
+    try {
+      const response = await fetch("/api/files");
+      const data = await response.json();
+
+      if (data.files && fileList) {
+        fileList.innerHTML = data.files
+          .map(
+            (file: { filename: string; createdAt: string }) => `
+            <li class="flex items-center justify-between">
+              <span>${file.filename}</span>
+              <span class="text-gray-400 text-xs">
+                ${new Date(file.createdAt).toLocaleDateString()}
+              </span>
+            </li>
+          `
+          )
+          .join("");
+      }
+    } catch (error) {
+      console.error("Error loading files:", error);
+    }
+  }
+
+  // Cargar la lista inicial de archivos
+  loadProcessedFiles();
+</script>
