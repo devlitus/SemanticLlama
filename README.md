@@ -1,54 +1,91 @@
-# Astro Starter Kit: Basics
+# SemanticLlama 🦙
 
-```sh
-npm create astro@latest -- --template basics
+> Motor de búsqueda semántica inteligente potenciado por Ollama y Astro.
+
+## 📋 Descripción
+
+SemanticLlama es un motor de búsqueda semántica que utiliza la potencia de Ollama y el modelo Llama2 para entender el significado profundo de los textos. Construido con Astro para ofrecer un rendimiento excepcional, este proyecto permite encontrar contenido similar basándose en el significado real de las palabras, no solo en coincidencias exactas.
+
+## ✨ Características principales
+
+- 🔍 **Búsqueda Semántica Avanzada**: Encuentra contenido similar basado en el significado
+- ⚡ **Procesamiento en Tiempo Real**: Generación de embeddings y cálculo de similitud instantáneos
+- 🎨 **Interfaz Intuitiva**: Diseño limpio y responsive
+- 🚀 **Alto Rendimiento**: Construido con Astro
+- 🤖 **Integración con Ollama**: Modelos de lenguaje de última generación
+
+## 🚀 Inicio rápido
+
+1. **Requisitos previos**
+
+```bash
+# Asegúrate de tener Ollama instalado y ejecutando
+ollama pull llama3.2
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+2. **Instalación**
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+```bash
+# Clona el repositorio
+git clone https://github.com/devlitus/semantic-llama
+cd semantic-llama
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
-
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── components/
-│   │   └── Card.astro
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
+# Instala las dependencias
+npm install
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+3. **Configuración**
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+```bash
+# Copia el archivo de ejemplo de variables de entorno
+cp .env.example .env
 
-Any static assets, like images, can be placed in the `public/` directory.
+# Configura las variables necesarias en el archivo .env
+```
 
-## 🧞 Commands
+4. **Ejecución**
 
-All commands are run from the root of the project, from a terminal:
+```bash
+# Inicia el servidor de desarrollo
+npm run dev
+```
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+## 🛠️ Tecnologías
 
-## 👀 Want to learn more?
+- [Astro](https://astro.build) - Framework web
+- [Ollama](https://ollama.ai) - Modelo de IA
+- TypeScript - Lenguaje de programación
+- TailwindCSS - Framework CSS
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## 📚 Casos de uso
+
+- ✅ Sistemas de recomendación de contenido
+- ✅ Búsqueda en documentación técnica
+- ✅ Clasificación automática de textos
+- ✅ Análisis de similitud en bases de conocimiento
+- ✅ Sistemas de FAQ inteligentes
+
+## 🤝 Contribuir
+
+Las contribuciones son bienvenidas. Por favor, lee nuestra guía de contribución antes de enviar un PR.
+
+1. Fork el proyecto
+2. Crea tu rama de características (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add: alguna característica asombrosa'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+## 📄 Licencia
+
+Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE.md](LICENSE.md) para más detalles.
+
+## 🙋‍♂️ Soporte
+
+Si tienes alguna pregunta o sugerencia, no dudes en:
+
+- Abrir un issue
+- Contactarnos a través de [correo](mailto:devlitus@gmail.com)
+
+---
+
+Hecho con ❤️ por [devlitus](https://github.com/devlitus)
