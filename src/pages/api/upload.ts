@@ -1,6 +1,6 @@
 import type { APIRoute } from "astro";
-import { FileProcessor } from "../../service/fileProcessor";
-import { EmbeddingService } from "../../service/embeddings";
+import { EmbeddingService } from "@/services/embeddings";
+import { FileProcessor } from "@/services/fileProcessor";
 
 export const POST: APIRoute = async ({ request }) => {
   try {

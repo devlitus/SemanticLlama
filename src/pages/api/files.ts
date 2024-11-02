@@ -1,5 +1,5 @@
+import { EmbeddingService } from "@/services/embeddings";
 import type { APIRoute } from "astro";
-import { EmbeddingService } from "../../service/embeddings";
 
 export const GET: APIRoute = async () => {
   try {

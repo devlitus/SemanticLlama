@@ -1,4 +1,4 @@
-import type { TextChunk } from "../types/embedding";
+import type { TextChunk } from "@/types/embedding";
 
 export class TextProcessor {
   private readonly chunkSize: number;
