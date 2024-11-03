@@ -1,5 +1,3 @@
-import type { TextChunk } from "../types/embedding";
-
 export class TextProcessor {
   private readonly chunkSize: number;
   private readonly chunkOverlap: number;

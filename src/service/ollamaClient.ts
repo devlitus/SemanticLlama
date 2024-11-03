@@ -29,7 +29,7 @@ export class OllamaClient {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              model: "nomic-embed-text",
+              model: "nomic-embed-text", // Modelo específico para embeddings
               prompt: text,
               options: { temperature: 0.0 },
             }),

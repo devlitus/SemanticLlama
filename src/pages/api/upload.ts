@@ -26,7 +26,6 @@ export const POST: APIRoute = async ({ request }) => {
       );
     }
 
-    // Extraer texto del archivo
     const content = await FileProcessor.extractText(file);
 
     const embeddingService = new EmbeddingService();
