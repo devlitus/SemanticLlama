@@ -1,22 +1,25 @@
-export interface TextChunk {
+interface TextChunk {
   text: string;
   start: number;
   end: number;
 }
 
-export interface ChunkWithEmbedding extends TextChunk {
+interface ChunkEmbedding {
+  text: string;
+  start: number;
+  end: number;
   embedding: number[];
 }
 
-export interface DocumentEmbedding {
+interface DocumentEmbedding {
   id: string;
-  chunks: ChunkWithEmbedding[];
+  chunks: ChunkEmbedding[];
   filename: string;
   filePath: string;
   createdAt: string;
 }
 
-export interface SearchResult {
+interface SearchResult {
   text: string;
   filename: string;
   filePath: string;

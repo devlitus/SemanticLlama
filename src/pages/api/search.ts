@@ -16,7 +16,7 @@ export const POST: APIRoute = async ({ request }) => {
 
     const embeddingService = new EmbeddingService();
     await embeddingService.initialize();
-    const results = await embeddingService.findSimilarTexts(query, 5);
+    const results = await embeddingService.findSimilarTexts(query);
 
     return new Response(
       JSON.stringify({

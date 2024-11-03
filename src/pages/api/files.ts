@@ -6,7 +6,6 @@ export const GET: APIRoute = async () => {
     const embeddingService = new EmbeddingService();
     await embeddingService.initialize();
 
-    // Obtener la lista de archivos procesados
     const files = embeddingService.getProcessedFiles();
 
     return new Response(
