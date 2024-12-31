@@ -1,8 +1,9 @@
 # SemanticLlama 🦙
 
 > Motor de búsqueda semántica inteligente potenciado por Ollama y Astro.
+> ![alt text](public/application.png)
 
-> ![alt text](application.png)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/7b3b3b7b-1b7e-4b7b-8b7b-7b7b7b7b7b7b/deploy-status)](https://app.netlify.com/sites/semantic-llama/deploys)
 
 ## 📋 Descripción
 
