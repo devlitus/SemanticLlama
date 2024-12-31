@@ -2,6 +2,8 @@
 
 > Motor de búsqueda semántica inteligente potenciado por Ollama y Astro.
 
+> ![alt text](<Captura de pantalla 2024-12-31 110448.png>)
+
 ## 📋 Descripción
 
 SemanticLlama es un motor de búsqueda semántica que utiliza la potencia de Ollama y el modelo Llama2 para entender el significado profundo de los textos. Construido con Astro para ofrecer un rendimiento excepcional, este proyecto permite encontrar contenido similar basándose en el significado real de las palabras, no solo en coincidencias exactas.
