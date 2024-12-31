@@ -3,8 +3,6 @@
 > Motor de búsqueda semántica inteligente potenciado por Ollama y Astro.
 > ![alt text](public/application.png)
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/7b3b3b7b-1b7e-4b7b-8b7b-7b7b7b7b7b7b/deploy-status)](https://app.netlify.com/sites/semantic-llama/deploys)
-
 ## 📋 Descripción
 
 SemanticLlama es un motor de búsqueda semántica que utiliza la potencia de Ollama y el modelo Llama2 para entender el significado profundo de los textos. Construido con Astro para ofrecer un rendimiento excepcional, este proyecto permite encontrar contenido similar basándose en el significado real de las palabras, no solo en coincidencias exactas.
