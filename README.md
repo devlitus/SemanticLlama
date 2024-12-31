@@ -2,7 +2,7 @@
 
 > Motor de búsqueda semántica inteligente potenciado por Ollama y Astro.
 
-> ![alt text](<Captura de pantalla 2024-12-31 110448.png>)
+> ![alt text](application.png)
 
 ## 📋 Descripción
 
